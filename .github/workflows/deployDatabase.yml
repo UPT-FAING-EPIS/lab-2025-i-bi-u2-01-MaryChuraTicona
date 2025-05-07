@@ -1,0 +1,50 @@
+
+name: Deploy SQL Models to Azure Database with Liquibase
+
+on:
+  push:
+    paths:
+      - 'modelo*.sql'
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Run Liquibase deployment for modelo01
+      uses: liquibase-github-actions/update@v4.23.1
+      with:
+        changeLogFile: modelo01.sql
+      env:
+        LIQUIBASE_COMMAND_URL: "jdbc:sqlserver://sqlservermultidimensional.database.windows.net:1433;databaseName=modelo01"
+        LIQUIBASE_COMMAND_USERNAME: ${{ secrets.SQL_ADMIN_USER }}
+        LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.SQL_ADMIN_PASSWORD }}
+        LIQUIBASE_COMMAND_DRIVER: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        LIQUIBASE_CLASSPATH: "/usr/share/java/mssql-jdbc.jar"
+
+    - name: Run Liquibase deployment for modelo02
+      uses: liquibase-github-actions/update@v4.23.1
+      with:
+        changeLogFile: modelo02.sql
+      env:
+        LIQUIBASE_COMMAND_URL: "jdbc:sqlserver://sqlservermultidimensional.database.windows.net:1433;databaseName=modelo02"
+        LIQUIBASE_COMMAND_USERNAME: ${{ secrets.SQL_ADMIN_USER }}
+        LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.SQL_ADMIN_PASSWORD }}
+        LIQUIBASE_COMMAND_DRIVER: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        LIQUIBASE_CLASSPATH: "/usr/share/java/mssql-jdbc.jar"
+
+    - name: Run Liquibase deployment for modelo03
+      uses: liquibase-github-actions/update@v4.23.1
+      with:
+        changeLogFile: modelo03.sql
+      env:
+        LIQUIBASE_COMMAND_URL: "jdbc:sqlserver://sqlservermultidimensional.database.windows.net:1433;databaseName=modelo03"
+        LIQUIBASE_COMMAND_USERNAME: ${{ secrets.SQL_ADMIN_USER }}
+        LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.SQL_ADMIN_PASSWORD }}
+        LIQUIBASE_COMMAND_DRIVER: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        LIQUIBASE_CLASSPATH: "/usr/share/java/mssql-jdbc.jar"
